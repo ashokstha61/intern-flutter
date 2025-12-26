@@ -2,7 +2,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:faker/faker.dart';
 import '../features/forms/state/form_provider.dart';
 
-// Global items provider to store all items
 final itemsProvider = StateNotifierProvider<ItemsNotifier, List<Item>>(
   (ref) => ItemsNotifier(),
 );

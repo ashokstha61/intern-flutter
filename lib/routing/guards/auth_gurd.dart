@@ -1,6 +1,5 @@
 import 'package:beamer/beamer.dart';
 
-// Simple BeamGuard without WidgetRef dependency
 class AuthGuard extends BeamGuard {
   final bool isAuthenticated;
 

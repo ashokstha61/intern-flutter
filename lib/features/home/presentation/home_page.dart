@@ -13,12 +13,7 @@ class HomePage extends StatelessWidget {
       appBar: AppBar(
         title: const Text('Flutter Internship'),
         actions: [
-          IconButton(
-            icon: const Icon(FontAwesomeIcons.moon),
-            onPressed: () {
-              // TODO: Toggle theme
-            },
-          ),
+          IconButton(icon: const Icon(FontAwesomeIcons.moon), onPressed: () {}),
         ],
       ),
       body: Padding(

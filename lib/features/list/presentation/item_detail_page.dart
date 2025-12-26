@@ -14,16 +14,18 @@ class ItemDetailPage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final items = ref.watch(itemsProvider);
-    final item = items.firstWhere((item) => item.id == itemId,
-        orElse: () => Item(
-              id: '',
-              title: 'Item not found',
-              description: 'This item does not exist',
-              price: 0,
-              category: 'General',
-              createdAt: DateTime.now(),
-              imageUrl: '',
-            ));
+    final item = items.firstWhere(
+      (item) => item.id == itemId,
+      orElse: () => Item(
+        id: '',
+        title: 'Item not found',
+        description: 'This item does not exist',
+        price: 0,
+        category: 'General',
+        createdAt: DateTime.now(),
+        imageUrl: '',
+      ),
+    );
 
     return Scaffold(
       appBar: AppBar(
@@ -33,12 +35,7 @@ class ItemDetailPage extends ConsumerWidget {
           onPressed: () => Beamer.of(context).beamBack(),
         ),
         actions: [
-          IconButton(
-            icon: const Icon(FontAwesomeIcons.edit),
-            onPressed: () {
-              // TODO: Implement edit functionality
-            },
-          ),
+          IconButton(icon: const Icon(FontAwesomeIcons.penToSquare), onPressed: () {}),
         ],
       ),
       body: SingleChildScrollView(
@@ -60,10 +57,7 @@ class ItemDetailPage extends ConsumerWidget {
             const SizedBox(height: 24),
             Text(
               item.title,
-              style: const TextStyle(
-                fontSize: 24,
-                fontWeight: FontWeight.bold,
-              ),
+              style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 12),
             Row(
@@ -113,10 +107,7 @@ class ItemDetailPage extends ConsumerWidget {
                     const SizedBox(height: 12),
                     Text(
                       item.description,
-                      style: const TextStyle(
-                        fontSize: 16,
-                        height: 1.6,
-                      ),
+                      style: const TextStyle(fontSize: 16, height: 1.6),
                     ),
                   ],
                 ),
@@ -139,11 +130,13 @@ class ItemDetailPage extends ConsumerWidget {
                     const SizedBox(height: 12),
                     buildDetailRow('ID', item.id.substring(0, 8)),
                     buildDetailRow(
-                        'Added On',
-                        '${item.createdAt.day}/${item.createdAt.month}/${item.createdAt.year}'),
+                      'Added On',
+                      '${item.createdAt.day}/${item.createdAt.month}/${item.createdAt.year}',
+                    ),
                     buildDetailRow(
-                        'Added Time',
-                        '${item.createdAt.hour}:${item.createdAt.minute.toString().padLeft(2, '0')}'),
+                      'Added Time',
+                      '${item.createdAt.hour}:${item.createdAt.minute.toString().padLeft(2, '0')}',
+                    ),
                   ],
                 ),
               ),
@@ -181,6 +174,4 @@ class ItemDetailPage extends ConsumerWidget {
     };
     return colors[category] ?? Colors.blue;
   }
-
- 
 }
