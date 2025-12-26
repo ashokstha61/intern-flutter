@@ -18,6 +18,6 @@ Widget buildStateItem(String label, String value) {
             ),
           ),
         ],
-      ),
+      )
     );
   }

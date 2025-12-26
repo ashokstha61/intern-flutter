@@ -1,11 +1,12 @@
-import 'package:beamer/beamer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:projectintern/core/utils/showsuccessdialog.dart';
+import 'package:beamer/beamer.dart';
+import 'package:projectintern/core/utils/form_actions.dart';
 import 'package:projectintern/features/forms/presentation/widgets/buildFormField.dart';
 import 'package:projectintern/features/forms/presentation/widgets/buildcategorydropdown.dart';
 import 'package:projectintern/features/forms/presentation/widgets/buildstateitem.dart';
+import 'package:projectintern/provider/item_provider.dart';
 import '../../../core/widgets/custom_button.dart';
 import '../state/form_provider.dart';
 
@@ -16,7 +17,6 @@ class AddItemFormPage extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final formState = ref.watch(addItemFormProvider);
     final formNotifier = ref.read(addItemFormProvider.notifier);
-    ref.read(itemsProvider.notifier);
 
     return Scaffold(
       appBar: AppBar(
@@ -118,8 +118,7 @@ class AddItemFormPage extends ConsumerWidget {
             const SizedBox(height: 30),
             CustomButton(
               text: 'Submit Item',
-              onPressed: () => _submitForm(context, ref),
-
+              onPressed: () => submitForm(context, ref),
               isLoading: formState.isLoading,
               icon: FontAwesomeIcons.paperPlane,
             ),
@@ -172,16 +171,5 @@ class AddItemFormPage extends ConsumerWidget {
         ),
       ),
     );
-  }
-
-  Future<void> _submitForm(BuildContext context, WidgetRef ref) async {
-    final formNotifier = ref.read(addItemFormProvider.notifier);
-    final itemsNotifier = ref.read(itemsProvider.notifier);
-
-    final item = await formNotifier.submit();
-    if (item != null) {
-      itemsNotifier.state = [...itemsNotifier.state, item];
-      showSuccessDialog(context, item);
-    }
   }
 }
