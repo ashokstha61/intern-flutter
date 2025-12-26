@@ -343,7 +343,6 @@ class AddItemFormNotifier extends StateNotifier<AddItemFormState> {
       
       final item = Item.fromFormData(state);
       
-      // Reset form on success
       state = AddItemFormState();
       
       return item;

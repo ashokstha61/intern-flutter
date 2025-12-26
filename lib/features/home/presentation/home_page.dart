@@ -119,7 +119,7 @@ class HomePage extends StatelessWidget {
                     title: 'Advanced State & Async',
                     description: 'Handle async operations with FutureProvider',
                     completed: false,
-                    icon: FontAwesomeIcons.sync,
+                    icon: FontAwesomeIcons.arrowsRotate,
                   ),
                   buildTaskCard(
                     context,
@@ -143,7 +143,7 @@ class HomePage extends StatelessWidget {
                     title: 'Forms & Validation',
                     description: 'Create forms with Riverpod state',
                     completed: false,
-                    icon: FontAwesomeIcons.edit,
+                    icon: FontAwesomeIcons.penToSquare,
                   ),
                   buildTaskCard(
                     context,

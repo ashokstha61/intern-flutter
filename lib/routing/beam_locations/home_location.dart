@@ -19,7 +19,6 @@ class HomeLocation extends BeamLocation<BeamState> {
   List<BeamPage> buildPages(BuildContext context, BeamState state) {
     final pages = <BeamPage>[];
 
-    // Handle root path
     if (state.uri.path == '/' || state.uri.path == '/home') {
       pages.add(
         const BeamPage(
@@ -30,7 +29,6 @@ class HomeLocation extends BeamLocation<BeamState> {
       );
     }
 
-    // Handle counter route
     if (state.uri.path == '/counter') {
       pages.add(
         const BeamPage(
@@ -41,7 +39,6 @@ class HomeLocation extends BeamLocation<BeamState> {
       );
     }
 
-    // Handle api-demo route
     if (state.uri.path == '/api-demo') {
       pages.add(
         const BeamPage(
@@ -52,7 +49,6 @@ class HomeLocation extends BeamLocation<BeamState> {
       );
     }
 
-    // Handle add-item route
     if (state.uri.path == '/add-item') {
       pages.add(
         const BeamPage(

@@ -1,36 +1,18 @@
+import 'package:beamer/beamer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:beamer/beamer.dart';
-import 'package:projectintern/features/forms/state/form_provider.dart';
+import 'package:projectintern/core/constants/category_color.dart';
+import 'package:projectintern/features/list/presentation/widgets/delete_item_dialog.dart';
 import 'package:projectintern/provider/item_provider.dart';
 
-class ItemsListPage extends ConsumerStatefulWidget {
+class ItemsListPage extends ConsumerWidget {
   const ItemsListPage({super.key});
 
   @override
-  ConsumerState<ItemsListPage> createState() => _ItemsListPageState();
-}
-
-class _ItemsListPageState extends ConsumerState<ItemsListPage> {
-  final TextEditingController _searchController = TextEditingController();
-  String _searchQuery = '';
-
-  @override
-  void dispose() {
-    _searchController.dispose();
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final items = ref.watch(itemsProvider);
     final itemsNotifier = ref.read(itemsProvider.notifier);
-    
-    // Filter items based on search query
-    final filteredItems = _searchQuery.isEmpty
-        ? items
-        : itemsNotifier.searchItems(_searchQuery);
 
     return Scaffold(
       appBar: AppBar(
@@ -42,35 +24,8 @@ class _ItemsListPageState extends ConsumerState<ItemsListPage> {
       ),
       body: Column(
         children: [
-          // Search Bar
-          Padding(
-            padding: const EdgeInsets.all(16),
-            child: TextField(
-              controller: _searchController,
-              decoration: InputDecoration(
-                hintText: 'Search items...',
-                prefixIcon: const Icon(FontAwesomeIcons.search),
-                suffixIcon: _searchQuery.isNotEmpty
-                    ? IconButton(
-                        icon: const Icon(FontAwesomeIcons.times),
-                        onPressed: () {
-                          _searchController.clear();
-                          setState(() => _searchQuery = '');
-                        },
-                      )
-                    : null,
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(12),
-                ),
-              ),
-              onChanged: (value) {
-                setState(() => _searchQuery = value);
-              },
-            ),
-          ),
-          // Stats Card
           Card(
-            margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+            margin: const EdgeInsets.all(16),
             child: Padding(
               padding: const EdgeInsets.all(16),
               child: Row(
@@ -79,14 +34,14 @@ class _ItemsListPageState extends ConsumerState<ItemsListPage> {
                   Column(
                     children: [
                       Text(
-                        '${filteredItems.length}',
+                        '${items.length}',
                         style: const TextStyle(
                           fontSize: 24,
                           fontWeight: FontWeight.bold,
                           color: Colors.blue,
                         ),
                       ),
-                      const Text('Items'),
+                      const Text('Total Items'),
                     ],
                   ),
                   Column(
@@ -119,45 +74,35 @@ class _ItemsListPageState extends ConsumerState<ItemsListPage> {
               ),
             ),
           ),
-          // Items List
           Expanded(
-            child: filteredItems.isEmpty
-                ? Center(
+            child: items.isEmpty
+                ? const Center(
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Icon(
-                          _searchQuery.isEmpty
-                              ? FontAwesomeIcons.boxOpen
-                              : FontAwesomeIcons.search,
+                          FontAwesomeIcons.boxOpen,
                           size: 64,
                           color: Colors.grey,
                         ),
-                        const SizedBox(height: 16),
+                        SizedBox(height: 16),
                         Text(
-                          _searchQuery.isEmpty
-                              ? 'No items added yet'
-                              : 'No items found for "$_searchQuery"',
-                          style: const TextStyle(
-                            fontSize: 18,
-                            color: Colors.grey,
-                          ),
+                          'No items added yet',
+                          style: TextStyle(fontSize: 18, color: Colors.grey),
                         ),
-                        const SizedBox(height: 8),
+                        SizedBox(height: 8),
                         Text(
-                          _searchQuery.isEmpty
-                              ? 'Tap the + button to add your first item'
-                              : 'Try a different search term',
-                          style: const TextStyle(color: Colors.grey),
+                          'Tap the + button to add your first item',
+                          style: TextStyle(color: Colors.grey),
                         ),
                       ],
                     ),
                   )
                 : ListView.builder(
                     padding: const EdgeInsets.all(16),
-                    itemCount: filteredItems.length,
+                    itemCount: items.length,
                     itemBuilder: (context, index) {
-                      final item = filteredItems[index];
+                      final item = items[index];
                       return Card(
                         margin: const EdgeInsets.only(bottom: 12),
                         child: ListTile(
@@ -174,9 +119,7 @@ class _ItemsListPageState extends ConsumerState<ItemsListPage> {
                           ),
                           title: Text(
                             item.title,
-                            style: const TextStyle(
-                              fontWeight: FontWeight.w600,
-                            ),
+                            style: const TextStyle(fontWeight: FontWeight.w600),
                           ),
                           subtitle: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
@@ -199,7 +142,7 @@ class _ItemsListPageState extends ConsumerState<ItemsListPage> {
                                       vertical: 2,
                                     ),
                                     decoration: BoxDecoration(
-                                      color: _getCategoryColor(item.category),
+                                      color: getCategoryColor(item.category),
                                       borderRadius: BorderRadius.circular(12),
                                     ),
                                     child: Text(
@@ -230,9 +173,11 @@ class _ItemsListPageState extends ConsumerState<ItemsListPage> {
                               size: 16,
                               color: Colors.red,
                             ),
-                            onPressed: () {
-                              _showDeleteDialog(context, ref, item);
-                            },
+                            onPressed: () => showDeleteDialog(
+                              context: context,
+                              ref: ref,
+                              item: item,
+                            ),
                           ),
                           onTap: () {
                             Beamer.of(context).beamToNamed('/list/${item.id}');
@@ -247,50 +192,6 @@ class _ItemsListPageState extends ConsumerState<ItemsListPage> {
       floatingActionButton: FloatingActionButton(
         onPressed: () => Beamer.of(context).beamToNamed('/add-item'),
         child: const Icon(FontAwesomeIcons.plus),
-      ),
-    );
-  }
-
-  Color _getCategoryColor(String category) {
-    final colors = {
-      'Electronics': Colors.blue,
-      'Clothing': Colors.purple,
-      'Books': Colors.orange,
-      'Home & Garden': Colors.green,
-      'Sports': Colors.red,
-      'Toys': Colors.pink,
-      'General': Colors.grey,
-      'Other': Colors.teal,
-    };
-    return colors[category] ?? Colors.blue;
-  }
-
-  void _showDeleteDialog(BuildContext context, WidgetRef ref, Item item) {
-    showDialog(
-      context: context,
-      builder: (context) => AlertDialog(
-        title: const Text('Delete Item'),
-        content: Text('Are you sure you want to delete "${item.title}"?'),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(context),
-            child: const Text('Cancel'),
-          ),
-          ElevatedButton(
-            style: ElevatedButton.styleFrom(backgroundColor: Colors.red),
-            onPressed: () {
-              ref.read(itemsProvider.notifier).deleteItem(item.id);
-              Navigator.pop(context);
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(
-                  content: Text('"${item.title}" deleted'),
-                  backgroundColor: Colors.red,
-                ),
-              );
-            },
-            child: const Text('Delete'),
-          ),
-        ],
       ),
     );
   }

@@ -36,7 +36,7 @@ class AddItemFormPage extends ConsumerWidget {
                 child: Column(
                   children: [
                     Icon(
-                      FontAwesomeIcons.plusCircle,
+                      FontAwesomeIcons.circlePlus,
                       size: 60,
                       color: Theme.of(context).primaryColor,
                     ),
@@ -133,7 +133,7 @@ class AddItemFormPage extends ConsumerWidget {
               child: const Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Icon(FontAwesomeIcons.redo, size: 20),
+                  Icon(FontAwesomeIcons.arrowRotateRight, size: 20),
                   SizedBox(width: 8),
                   Text('Reset Form'),
                 ],

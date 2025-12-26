@@ -18,7 +18,7 @@ Widget buildTaskCard(
         height: 50,
         decoration: BoxDecoration(
           color: completed
-              ? Theme.of(context).primaryColor.withOpacity(0.1)
+              ? Theme.of(context).primaryColor.withAlpha(1)
               : Colors.grey[100],
           borderRadius: BorderRadius.circular(25),
         ),
@@ -42,7 +42,7 @@ Widget buildTaskCard(
           ? Container(
               padding: const EdgeInsets.all(8),
               decoration: BoxDecoration(
-                color: Colors.green.withOpacity(0.1),
+                color: Colors.green.withAlpha(10),
                 shape: BoxShape.circle,
               ),
               child: const Icon(
