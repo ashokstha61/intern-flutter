@@ -1,3 +1,4 @@
+import 'package:beamer/beamer.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:projectintern/features/api_demo/data/mock_api_service.dart';
@@ -6,7 +7,7 @@ import 'package:projectintern/features/api_demo/presentation/postdetails.dart';
 class PostsListView extends StatelessWidget {
   final List<Post> posts;
 
-  const PostsListView({required this.posts});
+  const PostsListView({super.key, required this.posts});
 
   @override
   Widget build(BuildContext context) {
@@ -20,12 +21,7 @@ class PostsListView extends StatelessWidget {
           child: InkWell(
             borderRadius: BorderRadius.circular(12),
             onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => PostDetailPage(postId: post.id),
-                ),
-              );
+              Beamer.of(context).beamToNamed('/posts/${post.id}');
             },
             child: Padding(
               padding: const EdgeInsets.all(16),
@@ -105,10 +101,7 @@ class PostsListView extends StatelessWidget {
                       const SizedBox(width: 4),
                       Text(
                         '${post.likes}',
-                        style: TextStyle(
-                          fontSize: 14,
-                          color: Colors.grey[600],
-                        ),
+                        style: TextStyle(fontSize: 14, color: Colors.grey[600]),
                       ),
                     ],
                   ),

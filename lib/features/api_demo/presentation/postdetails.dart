@@ -1,3 +1,4 @@
+import 'package:beamer/beamer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -17,13 +18,15 @@ class PostDetailPage extends ConsumerWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Post Details'),
+        leading: IconButton(
+          onPressed: () => Beamer.of(context).beamBack(),
+          icon: Icon(Icons.arrow_back),
+        ),
       ),
       body: postAsync.when(
         data: (post) => _PostDetailView(post: post),
         loading: () => const Center(child: CircularProgressIndicator()),
-        error: (error, stackTrace) => Center(
-          child: Text('Error: $error'),
-        ),
+        error: (error, stackTrace) => Center(child: Text('Error: $error')),
       ),
     );
   }
@@ -56,10 +59,7 @@ class _PostDetailView extends StatelessWidget {
           const SizedBox(height: 20),
           Text(
             post.title,
-            style: const TextStyle(
-              fontSize: 24,
-              fontWeight: FontWeight.bold,
-            ),
+            style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
           ),
           const SizedBox(height: 16),
           Row(
@@ -85,16 +85,16 @@ class _PostDetailView extends StatelessWidget {
                     ),
                     Text(
                       'Published on ${post.date.day}/${post.date.month}/${post.date.year}',
-                      style: TextStyle(
-                        fontSize: 14,
-                        color: Colors.grey[600],
-                      ),
+                      style: TextStyle(fontSize: 14, color: Colors.grey[600]),
                     ),
                   ],
                 ),
               ),
               Container(
-                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 12,
+                  vertical: 6,
+                ),
                 decoration: BoxDecoration(
                   color: Colors.red[50],
                   borderRadius: BorderRadius.circular(20),
@@ -120,13 +120,7 @@ class _PostDetailView extends StatelessWidget {
             ],
           ),
           const SizedBox(height: 24),
-          Text(
-            post.body,
-            style: const TextStyle(
-              fontSize: 16,
-              height: 1.6,
-            ),
-          ),
+          Text(post.body, style: const TextStyle(fontSize: 16, height: 1.6)),
           const SizedBox(height: 40),
           Card(
             child: Padding(
@@ -136,10 +130,9 @@ class _PostDetailView extends StatelessWidget {
                 children: [
                   Text(
                     'Key Learnings',
-                    style: Theme.of(context)
-                        .textTheme
-                        .titleMedium
-                        ?.copyWith(fontWeight: FontWeight.bold),
+                    style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                   const SizedBox(height: 12),
                   buildLearningPoint(

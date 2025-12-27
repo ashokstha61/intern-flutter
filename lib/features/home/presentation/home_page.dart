@@ -35,7 +35,7 @@ class HomePage extends StatelessWidget {
                           decoration: BoxDecoration(
                             color: Theme.of(
                               context,
-                            ).primaryColor.withOpacity(0.1),
+                            ).primaryColor.withAlpha(010),
                             borderRadius: BorderRadius.circular(30),
                           ),
                           child: Icon(
@@ -66,7 +66,7 @@ class HomePage extends StatelessWidget {
                     ),
                     const SizedBox(height: 20),
                     const LinearProgressIndicator(
-                      value: 0.14, // Day 1/7
+                      value: 0.14, 
                       backgroundColor: Colors.grey,
                       valueColor: AlwaysStoppedAnimation(Colors.blue),
                     ),

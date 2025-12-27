@@ -35,7 +35,10 @@ class ItemDetailPage extends ConsumerWidget {
           onPressed: () => Beamer.of(context).beamBack(),
         ),
         actions: [
-          IconButton(icon: const Icon(FontAwesomeIcons.penToSquare), onPressed: () {}),
+          IconButton(
+            icon: Icon(FontAwesomeIcons.penToSquare),
+            onPressed: () {},
+          ),
         ],
       ),
       body: SingleChildScrollView(

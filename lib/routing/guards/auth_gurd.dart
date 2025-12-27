@@ -5,7 +5,14 @@ class AuthGuard extends BeamGuard {
 
   AuthGuard(this.isAuthenticated)
     : super(
-        pathPatterns: ['/home', '/counter', '/api-demo', '/add-item', '/list*'],
+        pathPatterns: [
+          '/home',
+          '/counter',
+          '/api-demo',
+          '/add-item',
+          '/list*',
+          '/posts*',
+        ],
         check: (context, state) => isAuthenticated,
         beamToNamed: (context, from) => '/login',
       );
